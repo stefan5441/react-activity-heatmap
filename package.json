@@ -1,6 +1,6 @@
 {
   "name": "react-activity-heatmap",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A customizable React activity heatmap component with themes and tooltips.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
