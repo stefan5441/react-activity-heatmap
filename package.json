@@ -8,7 +8,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cpx \"src/**/*.module.css\" dist",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
@@ -25,9 +25,11 @@
     "react-dom": ">=16.8.0 <20.0.0"
   },
   "devDependencies": {
-    "typescript": "^5.0.0",
-    "tsup": "^6.0.0",
+    "@types/prop-types": "^15.7.15",
     "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0"
+    "@types/react-dom": "^18.0.0",
+    "cpx": "^1.5.0",
+    "tsup": "^6.0.0",
+    "typescript": "^5.0.0"
   }
 }
