@@ -1,0 +1,13 @@
+.scrollContainer {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+.months {
+  display: grid;
+  gap: 0.25rem;
+  width: 100%;
+  max-width: 100%;
+}
