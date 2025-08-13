@@ -1,4 +1,4 @@
-import type { HeatmapActivity, HeatmapCell, HeatmapMonth } from "./types";
+import type { CellColors, HeatmapActivity, HeatmapCell, HeatmapMonth } from "./types";
 
 export function getMonthRanges(startDate: Date, endDate: Date): Array<HeatmapMonth> {
   if (startDate > endDate) {
@@ -98,3 +98,20 @@ export function getHeatmapMonthCells(
 
   return result;
 }
+
+export const getColor = (level: number, cellColors: CellColors) => {
+  switch (level) {
+    case 0:
+      return cellColors.level0;
+    case 1:
+      return cellColors.level1;
+    case 2:
+      return cellColors.level2;
+    case 3:
+      return cellColors.level3;
+    case 4:
+      return cellColors.level4;
+    default:
+      return "transparent";
+  }
+};

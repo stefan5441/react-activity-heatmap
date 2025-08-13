@@ -6,9 +6,10 @@ import styles from "./Tooltip.module.css";
 type Props = {
   content: React.ReactNode;
   children: React.ReactNode;
+  style?: React.CSSProperties;
 };
 
-export const Tooltip: React.FC<Props> = ({ content, children }) => {
+export const Tooltip: React.FC<Props> = ({ content, children, style }) => {
   const [visible, setVisible] = useState(false);
   const [coords, setCoords] = useState<{ top: number; left: number } | null>(null);
   const ref = useRef<HTMLDivElement>(null);
@@ -35,6 +36,7 @@ export const Tooltip: React.FC<Props> = ({ content, children }) => {
             style={{
               top: coords.top - 40,
               left: coords.left,
+              ...style,
             }}
             className={styles.tooltip}
           >

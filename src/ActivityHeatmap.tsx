@@ -1,5 +1,5 @@
 import React from "react";
-import { themes, type HeatmapActivity, type HeatmapCell, type Theme } from "./types";
+import { CellColors, type HeatmapActivity, type HeatmapCell } from "./types";
 import { ActivityHeatmapMonth } from "./ActivityHeatmapMonth";
 import { getHeatmapMonthCells, getMonthRanges } from "./utils";
 
@@ -9,20 +9,24 @@ type Props = {
   activities: Array<HeatmapActivity>;
   startDate?: Date;
   endDate?: Date;
-  theme?: Theme;
+  cellColors?: CellColors;
   renderTooltip?: (cell: HeatmapCell) => React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
+  monthLabelStyle?: React.CSSProperties;
+  tooltipStyle?: React.CSSProperties;
 };
 
 export const ActivityHeatmap: React.FC<Props> = ({
   activities,
   startDate,
   endDate,
-  theme = "green",
+  cellColors = { level0: "#3f3f46", level1: "#14532d", level2: "#15803d", level3: "#22c55e", level4: "#86efac" },
   renderTooltip,
   className,
   style,
+  monthLabelStyle,
+  tooltipStyle,
 }) => {
   const today = new Date();
   const defaultStartDate = new Date(today);
@@ -39,8 +43,6 @@ export const ActivityHeatmap: React.FC<Props> = ({
   });
   const gridTemplateColumns = columnSizesInCells.map((count) => `${count}fr`).join(" ");
 
-  const levelColors = themes[theme];
-
   return (
     <div className={`${styles.scrollContainer} ${className ?? ""}`} style={style}>
       <div className={styles.months} style={{ gridTemplateColumns }}>
@@ -54,8 +56,10 @@ export const ActivityHeatmap: React.FC<Props> = ({
               cells={heatmapMonthCells}
               columnSizeInCells={columnSizeInCells}
               key={month.name + month.start.toISOString()}
-              levelColors={levelColors}
+              cellColors={cellColors}
               renderTooltip={renderTooltip}
+              monthLabelStyle={monthLabelStyle}
+              tooltipStyle={tooltipStyle}
             />
           );
         })}

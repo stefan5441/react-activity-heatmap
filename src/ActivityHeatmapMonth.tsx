@@ -1,23 +1,28 @@
 import React from "react";
 
 import styles from "./ActivityHeatmapMonth.module.css";
-import { type HeatmapCell } from "./types";
+import { CellColors, type HeatmapCell } from "./types";
 import { Tooltip } from "./Tooltip";
+import { getColor } from "./utils";
 
 type Props = {
   monthName: string;
   cells: HeatmapCell[];
   columnSizeInCells: number;
-  levelColors: Record<number, string>;
+  cellColors: CellColors;
   renderTooltip?: (cell: HeatmapCell) => React.ReactNode;
+  monthLabelStyle?: React.CSSProperties;
+  tooltipStyle?: React.CSSProperties;
 };
 
 export const ActivityHeatmapMonth: React.FC<Props> = ({
   cells,
   monthName,
   columnSizeInCells,
-  levelColors,
+  cellColors,
   renderTooltip,
+  monthLabelStyle,
+  tooltipStyle,
 }) => (
   <div className={styles.container}>
     <div className={styles.grid} style={{ "--cols": columnSizeInCells } as React.CSSProperties}>
@@ -34,11 +39,15 @@ export const ActivityHeatmapMonth: React.FC<Props> = ({
                 : `${cell.count} ${cell.count === 1 ? "activity" : "activities"} on ${cell.date}`
             }
           >
-            <div className={`${styles.cell}`} style={{ backgroundColor: levelColors[cell.level] }} />
+            <div className={styles.cell} style={{ backgroundColor: getColor(cell.level, cellColors) }} />{" "}
           </Tooltip>
         );
       })}
     </div>
-    {columnSizeInCells >= 3 && <div className={styles.monthName}>{monthName.slice(0, 3)}</div>}
+    {columnSizeInCells >= 3 && (
+      <div className={styles.monthName} style={monthLabelStyle}>
+        {monthName.slice(0, 3)}
+      </div>
+    )}
   </div>
 );

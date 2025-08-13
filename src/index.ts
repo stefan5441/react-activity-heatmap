@@ -1,2 +1,2 @@
 export { ActivityHeatmap } from "./ActivityHeatmap";
-export type { HeatmapActivity, HeatmapCell, Theme } from "./types";
+export type { HeatmapActivity, HeatmapCell, CellColors } from "./types";
