@@ -1,13 +1,15 @@
 import React from "react";
-import { type HeatmapActivity, type HeatmapCell, type Theme } from "./types";
+import { CellColors, type HeatmapActivity, type HeatmapCell } from "./types";
 type Props = {
     activities: Array<HeatmapActivity>;
     startDate?: Date;
     endDate?: Date;
-    theme?: Theme;
+    cellColors?: CellColors;
     renderTooltip?: (cell: HeatmapCell) => React.ReactNode;
     className?: string;
     style?: React.CSSProperties;
+    monthLabelStyle?: React.CSSProperties;
+    tooltipStyle?: React.CSSProperties;
 };
 export declare const ActivityHeatmap: React.FC<Props>;
 export {};

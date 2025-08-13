@@ -81,3 +81,19 @@ export function getHeatmapMonthCells(activities, startDate, endDate) {
     }
     return result;
 }
+export var getColor = function (level, cellColors) {
+    switch (level) {
+        case 0:
+            return cellColors.level0;
+        case 1:
+            return cellColors.level1;
+        case 2:
+            return cellColors.level2;
+        case 3:
+            return cellColors.level3;
+        case 4:
+            return cellColors.level4;
+        default:
+            return "transparent";
+    }
+};

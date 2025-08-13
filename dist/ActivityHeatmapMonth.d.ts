@@ -1,11 +1,13 @@
 import React from "react";
-import { type HeatmapCell } from "./types";
+import { CellColors, type HeatmapCell } from "./types";
 type Props = {
     monthName: string;
     cells: HeatmapCell[];
     columnSizeInCells: number;
-    levelColors: Record<number, string>;
+    cellColors: CellColors;
     renderTooltip?: (cell: HeatmapCell) => React.ReactNode;
+    monthLabelStyle?: React.CSSProperties;
+    tooltipStyle?: React.CSSProperties;
 };
 export declare const ActivityHeatmapMonth: React.FC<Props>;
 export {};

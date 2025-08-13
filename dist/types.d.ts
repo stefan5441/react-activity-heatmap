@@ -9,5 +9,10 @@ export type HeatmapMonth = {
     start: Date;
     end: Date;
 };
-export type Theme = "red" | "orange" | "amber" | "yellow" | "lime" | "green" | "emerald" | "teal" | "cyan" | "sky" | "blue" | "indigo" | "violet" | "purple" | "fuchsia" | "pink" | "rose";
-export declare const themes: Record<Theme, Record<number, string>>;
+export type CellColors = {
+    level0: string;
+    level1: string;
+    level2: string;
+    level3: string;
+    level4: string;
+};
