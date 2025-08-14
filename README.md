@@ -95,4 +95,4 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 
 ## Keywords
 
-[react](https://www.npmjs.com/search?q=react) [heatmap](https://www.npmjs.com/search?q=heatmap) [activity](https://www.npmjs.com/search?q=activity) [component](https://www.npmjs.com/search?q=component) [typescript](https://www.npmjs.com/search?q=typescript)
+[react](https://www.npmjs.com/search?q=react) [heatmap](https://www.npmjs.com/search?q=heatmap) [activity](https://www.npmjs.com/search?q=activity) [component](https://www.npmjs.com/search?q=component) [typescript](https://www.npmjs.com/search?q=typescript) [leetcode](https://www.npmjs.com/search?q=leetcode) [github](https://www.npmjs.com/search?q=github)
