@@ -16,7 +16,9 @@
     "heatmap",
     "activity",
     "component",
-    "typescript"
+    "typescript",
+    "leetcode",
+    "github"
   ],
   "author": "Stefan Chambov",
   "license": "MIT",
