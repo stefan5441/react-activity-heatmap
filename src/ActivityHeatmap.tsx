@@ -15,6 +15,7 @@ type Props = {
   style?: React.CSSProperties;
   monthLabelStyle?: React.CSSProperties;
   tooltipStyle?: React.CSSProperties;
+  cellStyle?: React.CSSProperties;
 };
 
 export const ActivityHeatmap: React.FC<Props> = ({
@@ -27,6 +28,7 @@ export const ActivityHeatmap: React.FC<Props> = ({
   style,
   monthLabelStyle,
   tooltipStyle,
+  cellStyle,
 }) => {
   const today = new Date();
   const defaultStartDate = new Date(today);
@@ -60,6 +62,7 @@ export const ActivityHeatmap: React.FC<Props> = ({
               renderTooltip={renderTooltip}
               monthLabelStyle={monthLabelStyle}
               tooltipStyle={tooltipStyle}
+              cellStyle={cellStyle}
             />
           );
         })}
