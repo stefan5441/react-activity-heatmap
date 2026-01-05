@@ -18,11 +18,19 @@ type Props = {
   cellStyle?: React.CSSProperties;
 };
 
+const defaultCellColors: CellColors = {
+  level0: "#3f3f46",
+  level1: "#14532d",
+  level2: "#15803d",
+  level3: "#22c55e",
+  level4: "#86efac"
+}
+
 export const ActivityHeatmap: React.FC<Props> = ({
   activities,
   startDate,
   endDate,
-  cellColors = { level0: "#3f3f46", level1: "#14532d", level2: "#15803d", level3: "#22c55e", level4: "#86efac" },
+  cellColors,
   renderTooltip,
   className,
   style,
@@ -58,7 +66,7 @@ export const ActivityHeatmap: React.FC<Props> = ({
               cells={heatmapMonthCells}
               columnSizeInCells={columnSizeInCells}
               key={month.name + month.start.toISOString()}
-              cellColors={cellColors}
+              cellColors={{ ...defaultCellColors, ...cellColors }}
               renderTooltip={renderTooltip}
               monthLabelStyle={monthLabelStyle}
               tooltipStyle={tooltipStyle}
