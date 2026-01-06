@@ -38,6 +38,7 @@ export const ActivityHeatmapMonth: React.FC<Props> = ({
                 ? renderTooltip(cell)
                 : `${cell.count} ${cell.count === 1 ? "activity" : "activities"} on ${cell.date}`
             }
+            style={{...tooltipStyle}}
           >
             <div className={styles.cell} style={{ backgroundColor: getColor(cell.level, cellColors) }} />{" "}
           </Tooltip>
