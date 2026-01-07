@@ -13,6 +13,7 @@ type Props = {
   renderTooltip?: (cell: HeatmapCell) => React.ReactNode;
   monthLabelStyle?: React.CSSProperties;
   tooltipStyle?: React.CSSProperties;
+  cellStyle?: React.CSSProperties;
 };
 
 export const ActivityHeatmapMonth: React.FC<Props> = ({
@@ -23,6 +24,7 @@ export const ActivityHeatmapMonth: React.FC<Props> = ({
   renderTooltip,
   monthLabelStyle,
   tooltipStyle,
+  cellStyle,
 }) => (
   <div className={styles.container}>
     <div className={styles.grid} style={{ "--cols": columnSizeInCells } as React.CSSProperties}>
@@ -40,7 +42,7 @@ export const ActivityHeatmapMonth: React.FC<Props> = ({
             }
             style={{...tooltipStyle}}
           >
-            <div className={styles.cell} style={{ backgroundColor: getColor(cell.level, cellColors) }} />{" "}
+            <div className={styles.cell} style={{ backgroundColor: getColor(cell.level, cellColors), ...cellStyle }} />{" "}
           </Tooltip>
         );
       })}
