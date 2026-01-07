@@ -9,7 +9,7 @@ type Props = {
   activities: Array<HeatmapActivity>;
   startDate?: Date;
   endDate?: Date;
-  cellColors?: CellColors;
+  cellColors?: Partial<CellColors>;
   renderTooltip?: (cell: HeatmapCell) => React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
