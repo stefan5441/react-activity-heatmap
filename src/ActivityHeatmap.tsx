@@ -16,6 +16,7 @@ type Props = {
   monthLabelStyle?: React.CSSProperties;
   tooltipStyle?: React.CSSProperties;
   cellStyle?: React.CSSProperties;
+  onCellClick?: (cell: HeatmapCell, element: HTMLElement) => void;
 };
 
 const defaultCellColors: CellColors = {
@@ -37,6 +38,7 @@ export const ActivityHeatmap = forwardRef<HTMLDivElement, Props>(({
   monthLabelStyle,
   tooltipStyle,
   cellStyle,
+  onCellClick,
   ...rest
 }, ref) => {
   const today = new Date();
@@ -72,6 +74,7 @@ export const ActivityHeatmap = forwardRef<HTMLDivElement, Props>(({
               monthLabelStyle={monthLabelStyle}
               tooltipStyle={tooltipStyle}
               cellStyle={cellStyle}
+              onCellClick={onCellClick}
             />
           );
         })}
