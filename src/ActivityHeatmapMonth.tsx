@@ -14,7 +14,7 @@ type Props = {
   monthLabelStyle?: React.CSSProperties;
   tooltipStyle?: React.CSSProperties;
   cellStyle?: React.CSSProperties;
-  onCellClick?: (cell: HeatmapCell, element: HTMLElement) => void;
+  onCellClick?: (cell: HeatmapCell, event: React.MouseEvent<HTMLDivElement>) => void;
 };
 
 export const ActivityHeatmapMonth: React.FC<Props> = ({
@@ -42,9 +42,13 @@ export const ActivityHeatmapMonth: React.FC<Props> = ({
                 ? renderTooltip(cell)
                 : `${cell.count} ${cell.count === 1 ? "activity" : "activities"} on ${cell.date}`
             }
-            style={{...tooltipStyle}}
+            style={{ ...tooltipStyle }}
           >
-            <div className={styles.cell} style={{ backgroundColor: getColor(cell.level, cellColors), ...cellStyle }} onClick={(e) => onCellClick?.(cell, e.currentTarget)} />{" "}
+            <div
+              className={styles.cell}
+              style={{ backgroundColor: getColor(cell.level, cellColors), ...cellStyle }}
+              onClick={(e) => onCellClick?.(cell, e)}
+            />
           </Tooltip>
         );
       })}
