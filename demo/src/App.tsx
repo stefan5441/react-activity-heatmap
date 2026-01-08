@@ -1,6 +1,5 @@
-import { activities } from "./utils";
 import { FaCode, FaNpm } from "react-icons/fa";
-import { ActivityHeatmap } from "react-activity-heatmap";
+import { ActivityHeatmap } from "./ActivityHeatmap";
 
 import styles from "./App.module.css";
 
@@ -9,9 +8,7 @@ function App() {
     <div className={styles.container}>
       <h1>React Activity Heatmap Demo</h1>
 
-      <div className={styles.activityHeatmapContainer}>
-        <ActivityHeatmap activities={activities} />
-      </div>
+      <ActivityHeatmap />
 
       <p>Install using npm install react-activity-heatmap and enjoy. ❤️</p>
 
