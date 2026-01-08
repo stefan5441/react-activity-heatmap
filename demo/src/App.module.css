@@ -1,0 +1,12 @@
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+.container {
+  margin: 0 80px;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
