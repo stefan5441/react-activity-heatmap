@@ -1,40 +1,10 @@
 import type { CellColors, HeatmapActivity, HeatmapCell, HeatmapMonth } from "./types";
 
-export function getMonthRanges(startDate: Date, endDate: Date): Array<HeatmapMonth> {
-  if (startDate > endDate) {
-    throw new Error("startDate must be before endDate");
-  }
-
-  const result: Array<HeatmapMonth> = [];
-  const current = new Date(startDate);
-
-  while (current <= endDate) {
-    const year = current.getFullYear();
-    const month = current.getMonth();
-    const monthName = current.toLocaleString("default", { month: "long" });
-
-    const rangeStart = result.length === 0 ? new Date(startDate) : new Date(year, month, 1);
-
-    const isLastMonth = year === endDate.getFullYear() && month === endDate.getMonth();
-    const rangeEnd = isLastMonth ? new Date(endDate) : new Date(year, month + 1, 0);
-
-    result.push({
-      name: monthName,
-      start: rangeStart,
-      end: rangeEnd,
-    });
-
-    current.setFullYear(year, month + 1, 1);
-  }
-
-  return result;
-}
-
-export function getHeatmapMonthCells(
+export const getHeatmapMonthCells = (
   activities: Array<HeatmapActivity>,
   startDate: Date,
   endDate: Date
-): Array<HeatmapCell> {
+): Array<HeatmapCell> => {
   if (startDate.getFullYear() !== endDate.getFullYear() || startDate.getMonth() !== endDate.getMonth()) {
     throw new Error("startDate and endDate must be in the same month");
   }
@@ -46,44 +16,34 @@ export function getHeatmapMonthCells(
   const result: Array<HeatmapCell> = [];
 
   const activityMap: Record<string, HeatmapActivity> = {};
-  activities.forEach((a) => (activityMap[a.date] = a));
+  activities.forEach((a) => {
+    const normalizedDate = new Date(a.date);
+    normalizedDate.setHours(0, 0, 0, 0);
+    activityMap[normalizedDate.toISOString()] = a;
+  });
 
-  function addInvisibleCells(count: number) {
+  const addInvisibleCells = (count: number) => {
     for (let i = 0; i < count; i++) {
       result.push("invisible");
     }
-  }
-
-  function formatKey(date: Date): string {
-    const yyyy = date.getFullYear();
-    const mm = String(date.getMonth() + 1).padStart(2, "0");
-    const dd = String(date.getDate()).padStart(2, "0");
-    return `${yyyy}-${mm}-${dd}`;
-  }
-
-  function formatDisplay(date: Date): string {
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
-  }
+  };
 
   const current = new Date(startDate);
   addInvisibleCells(current.getDay());
 
   while (current <= endDate) {
-    const key = formatKey(current);
-    const displayDate = formatDisplay(current);
+    const keyDate = new Date(current);
+    keyDate.setHours(0, 0, 0, 0);
+    const key = keyDate.toISOString();
 
     if (key in activityMap) {
       result.push({
         ...activityMap[key],
-        date: displayDate,
+        date: new Date(current),
       });
     } else {
       result.push({
-        date: displayDate,
+        date: new Date(current),
         count: 0,
         level: 0,
       });
@@ -97,7 +57,15 @@ export function getHeatmapMonthCells(
   }
 
   return result;
-}
+};
+
+export const formatDateDisplay = (date: Date): string => {
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+};
 
 export const getColor = (level: number, cellColors: CellColors) => {
   switch (level) {
@@ -114,4 +82,12 @@ export const getColor = (level: number, cellColors: CellColors) => {
     default:
       return "transparent";
   }
+};
+
+export const defaultCellColors: CellColors = {
+  level0: "#3f3f46",
+  level1: "#14532d",
+  level2: "#15803d",
+  level3: "#22c55e",
+  level4: "#86efac",
 };

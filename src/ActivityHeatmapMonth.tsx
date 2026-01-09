@@ -1,25 +1,22 @@
 import React from "react";
+
 import { Tooltip } from "./Tooltip";
-import { getColor, getHeatmapMonthCells } from "./utils";
 import { CellColors, HeatmapActivity, type HeatmapCell } from "./types";
+import { defaultCellColors, formatDateDisplay, getColor, getHeatmapMonthCells } from "./utils";
 
 import styles from "./ActivityHeatmapMonth.module.css";
-
-const defaultCellColors: CellColors = {
-  level0: "#3f3f46",
-  level1: "#14532d",
-  level2: "#15803d",
-  level3: "#22c55e",
-  level4: "#86efac",
-};
 
 type Props = {
   activities: Array<HeatmapActivity>;
   month: number;
   year: number;
-  showMonthName?: boolean;
+  hideMonthName?: boolean;
+  hideTooltip?: boolean;
+  cellStyle?: React.CSSProperties;
+  monthNameStyle?: React.CSSProperties;
+  tooltipStyle?: React.CSSProperties;
+  customTooltipContent?: React.ReactNode;
   customCellColors?: Partial<CellColors>;
-  renderTooltip?: (cell: HeatmapCell) => React.ReactNode;
   onCellClick?: (cell: HeatmapCell, event: React.MouseEvent<HTMLDivElement>) => void;
 };
 
@@ -27,17 +24,20 @@ export const ActivityHeatmapMonth: React.FC<Props> = ({
   activities,
   year,
   month,
-  showMonthName = false,
+  hideMonthName = false,
+  hideTooltip = false,
+  cellStyle,
+  monthNameStyle,
+  tooltipStyle,
+  customTooltipContent,
   customCellColors,
-  renderTooltip,
   onCellClick,
 }) => {
   const startDate = new Date(year, month - 1, 1);
   const endDate = new Date(year, month, 0);
 
-  console.log(startDate, endDate);
-
   const cells = getHeatmapMonthCells(activities, startDate, endDate);
+  console.log({ cells });
   const columnSizeInCells = cells.length / 7;
   const monthName = startDate.toLocaleString("default", { month: "long" });
 
@@ -48,27 +48,43 @@ export const ActivityHeatmapMonth: React.FC<Props> = ({
       <div className={styles.grid} style={{ "--cols": columnSizeInCells } as React.CSSProperties}>
         {cells.map((cell, i) => {
           if (cell === "invisible") {
-            return <div key={i} className={styles.cellInvisible} />;
+            return <div key={`invisible-${i}`} className={styles.cellInvisible} style={{ ...cellStyle }} />;
           }
+
+          if (!hideTooltip) {
+            return (
+              <Tooltip
+                key={`cell-${i}`}
+                customStyle={tooltipStyle}
+                content={
+                  customTooltipContent ??
+                  `${cell.count} ${cell.count === 1 ? "activity" : "activities"} on ${formatDateDisplay(cell.date)}`
+                }
+              >
+                <div
+                  className={styles.cell}
+                  style={{ backgroundColor: getColor(cell.level, cellColors), ...cellStyle }}
+                  onClick={(e) => onCellClick?.(cell, e)}
+                />
+              </Tooltip>
+            );
+          }
+
           return (
-            <Tooltip
-              key={i}
-              content={
-                renderTooltip
-                  ? renderTooltip(cell)
-                  : `${cell.count} ${cell.count === 1 ? "activity" : "activities"} on ${cell.date}`
-              }
-            >
-              <div
-                className={styles.cell}
-                style={{ backgroundColor: getColor(cell.level, cellColors) }}
-                onClick={(e) => onCellClick?.(cell, e)}
-              />
-            </Tooltip>
+            <div
+              key={`cell-${i}`}
+              className={styles.cell}
+              style={{ backgroundColor: getColor(cell.level, cellColors), ...cellStyle }}
+              onClick={(e) => onCellClick?.(cell, e)}
+            />
           );
         })}
       </div>
-      {showMonthName && columnSizeInCells >= 3 && <div className={styles.monthName}>{monthName.slice(0, 3)}</div>}
+      {!hideMonthName && columnSizeInCells >= 3 && (
+        <div className={styles.monthName} style={{ ...monthNameStyle }}>
+          {monthName.slice(0, 3)}
+        </div>
+      )}
     </div>
   );
 };
