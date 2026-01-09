@@ -16,14 +16,14 @@ type Props = {
   hideTooltip?: boolean;
 
   // styling
+  cellStyle?: React.CSSProperties;
   monthNameStyle?: React.CSSProperties;
   tooltipStyle?: React.CSSProperties;
 
   // customization
-  customTooltipContent?: (cell: HeatmapCell) => React.ReactNode;
+  customTooltipContent?: (activity: HeatmapActivity) => React.ReactNode;
   customCellColors?: Partial<CellColors>;
-  cellProps?: (cell: HeatmapCell) => React.HTMLAttributes<HTMLDivElement>;
-  onCellClick?: (cell: HeatmapCell, event: React.MouseEvent<HTMLDivElement>) => void;
+  onCellClick?: (activity: HeatmapActivity, event: React.MouseEvent<HTMLDivElement>) => void;
 
   // formatting
   monthNameFormat?: "short" | "long" | ((date: Date) => string);
@@ -31,7 +31,7 @@ type Props = {
 
   // accessibility
   ariaLabel?: string;
-  cellAriaLabel?: (cell: HeatmapCell) => string;
+  cellAriaLabel?: (activity: HeatmapActivity) => string;
 };
 
 export const ActivityHeatmapMonth: React.FC<Props> = ({
@@ -43,9 +43,9 @@ export const ActivityHeatmapMonth: React.FC<Props> = ({
   monthNameStyle,
   monthNameFormat = "short",
   tooltipStyle,
+  cellStyle,
   customTooltipContent,
   customCellColors,
-  cellProps,
   onCellClick,
   locale,
   ariaLabel,
@@ -73,23 +73,19 @@ export const ActivityHeatmapMonth: React.FC<Props> = ({
     >
       <div className={styles.grid} style={{ "--cols": columnSizeInCells } as React.CSSProperties}>
         {cells.map((cell, i) => {
-          if (cell === "invisible") {
-            return <div key={`invisible-${i}`} className={styles.cellInvisible} />;
-          }
+          if (cell === "invisible") return <div key={`invisible-${i}`} className={styles.cellInvisible} />;
 
-          const isClickable = Boolean(onCellClick || cellProps?.(cell)?.onClick);
+          const isClickable = Boolean(onCellClick);
+
           const cellNode = (
             <div
               key={`cell-${i}`}
               className={styles.cell}
-              style={{ backgroundColor: getColor(cell.level, cellColors) }}
+              style={{ backgroundColor: getColor(cell.level, cellColors), ...cellStyle }}
               aria-label={cellAriaLabel?.(cell) ?? `${cell.count} activities on ${formatDateDisplay(cell.date)}`}
               role={isClickable ? "button" : undefined}
               tabIndex={isClickable ? 0 : undefined}
-              onClick={(e) => {
-                cellProps?.(cell)?.onClick?.(e);
-                onCellClick?.(cell, e);
-              }}
+              onClick={(e) => onCellClick?.(cell, e)}
               onKeyDown={(e) => {
                 if (!isClickable) return;
                 if (e.key === "Enter" || e.key === " ") {
@@ -97,7 +93,6 @@ export const ActivityHeatmapMonth: React.FC<Props> = ({
                   onCellClick?.(cell, e as unknown as React.MouseEvent<HTMLDivElement>);
                 }
               }}
-              {...cellProps?.(cell)}
             />
           );
 

@@ -8,7 +8,18 @@ export const ActivityHeatmap = () => {
   return (
     <div style={{ display: "flex", gap: "0.5rem" }}>
       {months.map((m) => (
-        <ActivityHeatmapMonth key={`${m}-${year}`} activities={activities} month={m} year={year} />
+        <ActivityHeatmapMonth
+          key={`${m}-${year}`}
+          activities={activities}
+          month={m}
+          year={year}
+          cellStyle={{ borderRadius: "0.2rem" }}
+          monthNameStyle={{ fontWeight: "semibold" }}
+          tooltipStyle={{ border: "1px solid #e0f2fe" }}
+          customCellColors={{ level1: "#047857", level2: "#059669", level3: "#10b981", level4: "#34d399" }}
+          monthNameFormat={"long"}
+          onCellClick={(cell) => alert(`Clicked on cell with ${cell.count} activities.`)}
+        />
       ))}
     </div>
   );
