@@ -1,6 +1,6 @@
 {
   "name": "react-activity-heatmap",
-  "version": "1.0.10",
+  "version": "2.0.0",
   "description": "A simple and customizable leetcode-style activity heatmap component for React",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
