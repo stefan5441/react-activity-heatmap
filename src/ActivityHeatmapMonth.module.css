@@ -11,19 +11,16 @@
   grid-template-rows: repeat(7, 1fr);
   grid-template-columns: repeat(var(--cols), 1fr);
   grid-auto-flow: column;
-  --gap: 0.125rem;
-  gap: var(--gap);
-  padding: calc(var(--gap) / 2);
+  gap: 0.125rem;
   box-sizing: border-box;
 }
 
 .cell,
 .cellInvisible {
-  width: 100%;
+  min-width: 0.5rem;
+  width: 1rem;
   aspect-ratio: 1 / 1;
   box-sizing: border-box;
-  min-width: 0.5rem;
-  min-width: 0.5rem;
 }
 
 .cellInvisible {
@@ -35,45 +32,9 @@
   cursor: default;
 }
 
-.cell:hover {
-  border: 0.125rem solid #e0f2fe;
-}
-
 .monthName {
-  font-size: 0.625rem;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 1rem;
   margin-top: 0.25rem;
   white-space: nowrap;
-}
-
-@media (max-width: 480px) {
-  .monthName {
-    font-size: 0.625rem;
-  }
-  .grid {
-    --gap: 0.125rem;
-    gap: var(--gap);
-    padding: calc(var(--gap) / 2);
-  }
-}
-
-@media (min-width: 768px) {
-  .monthName {
-    font-size: 0.875rem;
-  }
-  .grid {
-    --gap: 0.2rem;
-    gap: var(--gap);
-    padding: calc(var(--gap) / 2);
-  }
-}
-
-@media (min-width: 1920px) {
-  .monthName {
-    font-size: 1.5rem;
-  }
-  .grid {
-    --gap: 0.3rem;
-    gap: var(--gap);
-    padding: calc(var(--gap) / 2);
-  }
 }

@@ -1,5 +1,5 @@
 export type HeatmapActivity = {
-  date: string;
+  date: Date;
   count: number;
   level: number;
 };

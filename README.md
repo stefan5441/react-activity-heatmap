@@ -22,50 +22,65 @@ This package provides a simple and reusable React component to visualize activit
 
 ```js
 import React from "react";
-import { ActivityHeatmap } from "react-activity-heatmap";
+import { ActivityHeatmapMonth } from "react-activity-heatmap";
 
 const activities = [
-  { date: "2025-08-01", count: 5, level: 2 },
-  { date: "2025-08-02", count: 2, level: 1 },
-  { date: "2025-08-03", count: 8, level: 3 },
+  { date: new Date("2026-08-10"), count: 5, level: 2 },
+  { date: new Date("2026-08-11"), count: 2, level: 1 },
+  { date: new Date("2026-08-22"), count: 8, level: 3 },
   // add more activity objects here
 ];
 
-const startDate = new Date("2025-08-01");
-const endDate = new Date("2025-08-31");
+export const ActivityHeatmap = () => {
+  const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  const year = new Date().getFullYear();
 
-const App = () => {
   return (
-    <div>
-      <h1>My Activity Heatmap</h1>
-      <ActivityHeatmap activities={activities} startDate={startDate} endDate={endDate} />
+    <div style={{ display: "flex", gap: "0.5rem" }}>
+      {months.map((m) => (
+        <ActivityHeatmapMonth
+          key={`${m}-${year}`}
+          activities={activities}
+          month={m}
+          year={year}
+          cellStyle={{ borderRadius: "0.2rem" }}
+          monthNameStyle={{ fontWeight: "semibold" }}
+          tooltipStyle={{ border: "1px solid #e0f2fe" }}
+          customCellColors={{ level1: "#047857", level2: "#059669", level3: "#10b981", level4: "#34d399" }}
+          monthNameFormat={"long"}
+          onCellClick={(cell) => alert(`Clicked on cell with ${cell.count} activities.`)}
+        />
+      ))}
     </div>
   );
 };
-
-export default App;
 ```
 
 ## Props
 
-| Prop            | Type                                     | Required | Description                                                                                                                                                                                          |
-| --------------- | ---------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| activities      | `Array<HeatmapActivity>`                 | ✅       | Array of activity objects. `level` controls color intensity, and `count` is the number of activities displayed in the tooltip.                                                                       |
-| startDate       | `Date`                                   | ❌       | The first date in the heatmap, if not specified it will take today's date - 365 days.                                                                                                                |
-| endDate         | `Date`                                   | ❌       | The last date in the heatmap, if not specified it will take today's date.                                                                                                                            |
-| cellColors      | `Partial<CellColors>`                    | ❌       | Customization for the cell colors, level 0 is the no activities color and the others are for each level of activity. If not specified it will take the default green color like the one in the demo. |
-| renderTooltip   | `(cell: HeatmapCell) => React.ReactNode` | ❌       | Custom function to render a tooltip for a given cell.                                                                                                                                                |
-| className       | `string`                                 | ❌       | Optional CSS class for styling the heatmap container.                                                                                                                                                |
-| style           | `React.CSSProperties`                    | ❌       | Inline styles for the heatmap container.                                                                                                                                                             |
-| monthLabelStyle | `React.CSSProperties`                    | ❌       | Inline styles for the month labels displayed above the heatmap.                                                                                                                                      |
-| tooltipStyle    | `React.CSSProperties`                    | ❌       | Inline styles for the tooltip element.                                                                                                                                                               |
-| cellStyle       | `React.CSSProperties`                    | ❌       | Inline styles for the cells.                                                                                                                                                                         |
+| Prop                 | Type                                                                           | Required | Description                                                                                                        |
+| -------------------- | ------------------------------------------------------------------------------ | -------- | ------------------------------------------------------------------------------------------------------------------ |
+| activities           | `HeatmapActivity[]`                                                            | ✅       | Array of activity objects used to render the heatmap cells.                                                        |
+| month                | `number`                                                                       | ✅       | Month to display (1–12).                                                                                           |
+| year                 | `number`                                                                       | ✅       | Year to display for the given month.                                                                               |
+| hideMonthName        | `boolean`                                                                      | ❌       | Hides the month name header when set to true.                                                                      |
+| hideTooltip          | `boolean`                                                                      | ❌       | Disables the tooltip entirely when set to true.                                                                    |
+| cellStyle            | `React.CSSProperties`                                                          | ❌       | Inline styles applied to each heatmap cell.                                                                        |
+| monthNameStyle       | `React.CSSProperties`                                                          | ❌       | Inline styles applied to the month name label.                                                                     |
+| tooltipStyle         | `React.CSSProperties`                                                          | ❌       | Inline styles applied to the tooltip container.                                                                    |
+| customTooltipContent | `(activity: HeatmapActivity) => React.ReactNode`                               | ❌       | Custom renderer for tooltip content based on the activity data.                                                    |
+| customCellColors     | `Partial<CellColors>`                                                          | ❌       | Overrides default cell colors. Level 0 represents no activity; higher levels map to increasing activity intensity. |
+| onCellClick          | `(activity: HeatmapActivity, event: React.MouseEvent<HTMLDivElement>) => void` | ❌       | Callback fired when a heatmap cell is clicked.                                                                     |
+| monthNameFormat      | `"short" / "long" / ((date: Date) => string)`                                  | ❌       | Controls how the month name is formatted. Can be a preset or a custom formatter.                                   |
+| locale               | `string`                                                                       | ❌       | Locale used for month name formatting (for example: en-US, de-DE).                                                 |
+| ariaLabel            | `string`                                                                       | ❌       | Accessible label for the heatmap container.                                                                        |
+| cellAriaLabel        | `(activity: HeatmapActivity) => string`                                        | ❌       | Generates an accessible label for individual heatmap cells.                                                        |
 
 ## Types
 
 ```ts
 export type HeatmapActivity = {
-  date: string;
+  date: Date;
   count: number;
   level: number;
 };
