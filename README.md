@@ -96,6 +96,10 @@ export type CellColors = {
 };
 ```
 
+## Contributing
+
+This package is open source, contributions are welcome. You can find the project at https://github.com/stefan5441/react-activity-heatmap.
+
 ## Compatibility
 
 This package supports the following React versions:

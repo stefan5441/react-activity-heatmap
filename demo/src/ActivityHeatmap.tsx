@@ -1,5 +1,5 @@
 import { activities } from "./utils";
-import { ActivityHeatmapMonth } from "../../src/ActivityHeatmapMonth";
+import { ActivityHeatmapMonth } from "react-activity-heatmap";
 
 export const ActivityHeatmap = () => {
   const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
